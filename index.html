@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Birthday, Dipika!</title>
+    <style>
+        body { text-align: center; font-family: Arial, sans-serif; }
+        #confetti { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 9999; }
+        .slideshow-container { max-width: 600px; margin: auto; }
+        .mySlides { display: none; }
+        img { width: 100%; }
+    </style>
+</head>
+<body onload="startConfetti()">
+    <h1>Happy Birthday, Dipika!</h1>
+    <p>Wishing you a day filled with love, joy, and everything you wish for!</p>
+    <div class="slideshow-container">
+        <div class="mySlides fade">
+            <img src="https://via.placeholder.com/600x400?text=Photo+1" alt="Birthday Photo 1">
+        </div>
+        <div class="mySlides fade">
+            <img src="https://via.placeholder.com/600x400?text=Photo+2" alt="Birthday Photo 2">
+        </div>
+        <div class="mySlides fade">
+            <img src="https://via.placeholder.com/600x400?text=Photo+3" alt="Birthday Photo 3">
+        </div>
+        <div class="mySlides fade">
+            <img src="https://via.placeholder.com/600x400?text=Photo+4" alt="Birthday Photo 4">
+        </div>
+        <div class="mySlides fade">
+            <img src="https://via.placeholder.com/600x400?text=Photo+5" alt="Birthday Photo 5">
+        </div>
+        <div class="mySlides fade">
+            <img src="https://via.placeholder.com/600x400?text=Photo+6" alt="Birthday Photo 6">
+        </div>
+        <a class="prev" onclick="plusSlides(-1)">❮</a>
+        <a class="next" onclick="plusSlides(1)">❯</a>
+    </div>
+    <br>
+    <script>
+        let slideIndex = 0;
+        showSlides();
+        function showSlides() {
+            let i;
+            let slides = document.getElementsByClassName("mySlides");
+            for (i = 0; i < slides.length; i++) {
+                slides[i].style.display = "none";
+            }
+            slideIndex++; 
+            if (slideIndex > slides.length) { slideIndex = 1 }
+            slides[slideIndex - 1].style.display = "block";
+            setTimeout(showSlides, 2000); // Change image every 2 seconds
+        }
+
+        function startConfetti() {
+            var canvas = document.createElement('canvas');
+            canvas.id = 'confetti';
+            document.body.appendChild(canvas);
+            var ctx = canvas.getContext('2d');
+            var particles = [];
+            var colors = ['#f00', '#0f0', '#00f', '#ff0', '#0ff', '#f0f'];
+            function resize() {
+                canvas.width = window.innerWidth;
+                canvas.height = window.innerHeight;
+            }
+            function createParticle() {
+                var x = Math.random() * canvas.width;
+                var y = canvas.height;
+                var size = Math.random() * 5 + 5;
+                var color = colors[Math.floor(Math.random() * colors.length)];
+                particles.push({ x, y, size, color });
+            }
+            function updateParticles() {
+                for (var i = particles.length - 1; i >= 0; i--) {
+                    particles[i].y -= 3;
+                    if (particles[i].y + particles[i].size < 0) {
+                        particles.splice(i, 1);
+                    }
+                }
+            }
+            function drawParticles() {
+                for (var particle of particles) {
+                    ctx.fillStyle = particle.color;
+                    ctx.beginPath();
+                    ctx.arc(particle.x, particle.y, particle.size, 0, Math.PI * 2);
+                    ctx.fill();
+                }
+            }
+            function loop() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                updateParticles();
+                drawParticles();
+                if (particles.length < 100) createParticle();
+                requestAnimationFrame(loop);
+            }
+            window.addEventListener('resize', resize);
+            resize();
+            loop();
+        }
+    </script>
+</body>
+</html>
